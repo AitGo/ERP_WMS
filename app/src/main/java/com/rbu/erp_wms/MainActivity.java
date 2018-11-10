@@ -78,18 +78,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
 
-                dialog = builder.setTitle(getString(R.string.prompt))
-                        .setText(message)
-                        .setPositiveButton(getString(R.string.confirm), new MyDialog.ConfirmListener() {
-                            @Override
-                            public void onClick() {
-                                result.confirm();
-                                dialog.dismiss();
-                            }
-                        })
-                        .create();
-                dialog.show();
-                return true;
+//                dialog = builder.setTitle(getString(R.string.prompt))
+//                        .setText(message)
+//                        .setPositiveButton(getString(R.string.confirm), new MyDialog.ConfirmListener() {
+//                            @Override
+//                            public void onClick() {
+//                                result.confirm();
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .create();
+//                dialog.show();
+//                return true;
+                return super.onJsAlert(view,url,message,result);
             }
         });
 
