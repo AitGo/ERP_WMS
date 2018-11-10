@@ -3,6 +3,8 @@ package com.rbu.erp_wms.utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.rbu.erp_wms.base.ErpApplication;
+
 /**
  * 吐司工具类
  */

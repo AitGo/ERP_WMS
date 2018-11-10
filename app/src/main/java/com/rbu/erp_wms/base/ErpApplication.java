@@ -1,4 +1,4 @@
-package com.rbu.erp_wms.utils;
+package com.rbu.erp_wms.base;
 
 import android.app.Activity;
 import android.app.Application;

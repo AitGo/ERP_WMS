@@ -1,4 +1,4 @@
-package com.rbu.erp_wms;
+package com.rbu.erp_wms.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -13,6 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 
+import com.rbu.erp_wms.R;
 import com.rbu.erp_wms.interfase.CallBackFunction;
 import com.rbu.erp_wms.utils.LogUtils;
 import com.rbu.erp_wms.utils.WebViewUtils;
