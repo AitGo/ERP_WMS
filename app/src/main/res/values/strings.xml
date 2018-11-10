@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ERP_WMS</string>
+
+    <string name="prompt">提示</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="inputhint">请输入</string>
+</resources>

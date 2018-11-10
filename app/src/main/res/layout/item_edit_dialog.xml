@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="274dp"
+              android:layout_height="148dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="31dp"
+        android:background="@color/bg_blue"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/lamp_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt"
+            android:textColor="@color/text_white"
+            android:textSize="14sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:orientation="vertical"
+        android:background="@color/text_white">
+
+        <EditText
+            android:id="@+id/lamp_dialog_input"
+            android:layout_width="237dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/text_black"
+            android:textSize="12sp"
+            android:hint="@string/inputhint"
+            android:textColorHint="@color/bg_gray"
+            android:background="@drawable/bg_edittext"
+            android:layout_gravity="center_horizontal"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/dialog_confirm"
+                android:layout_width="91dp"
+                android:layout_height="29dp"
+                android:layout_marginLeft="21dp"
+                android:text="@string/confirm"
+                android:textSize="15sp"
+                android:textColor="@color/text_white"
+                android:background="@drawable/bg_button_confirm"/>
+
+            <Button
+                android:id="@+id/dialog_cancel"
+                android:layout_width="91dp"
+                android:layout_height="29dp"
+                android:layout_marginLeft="55dp"
+                android:layout_marginRight="21dp"
+                android:text="@string/cancel"
+                android:textSize="15sp"
+                android:textColor="@color/text_white"
+                android:background="@drawable/bg_button_cancel"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
