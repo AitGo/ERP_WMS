@@ -15,11 +15,12 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 
 import com.rbu.erp_wms.R;
+import com.rbu.erp_wms.base.Constants;
 
 /**
  * @创建者 liuyang
  * @创建时间 2018/11/12 10:41
- * @描述 ${TODO}
+ * @描述 ${扫描Activity}
  * @更新者 $Author$
  * @更新时间 $Date$
  * @更新描述 ${TODO}
@@ -33,32 +34,34 @@ public class ScanActivity extends Activity{
     private int      soundid;
     private Vibrator mVibrator;
     private String codeStr;
-    private final static String SCAN_ACTION = ScanManager.ACTION_DECODE;//default action
-    private final static String ACTION_RESPONSE_DONE = "com.rbu.intentservice.response_done";
-    private static int RESULT_SCAN = 1;
+
 
     private ProgressDialog mProgressDialog;
 
     private BroadcastReceiver mScanReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (ACTION_RESPONSE_DONE.equals(intent.getAction())) {
+            switch (intent.getAction()) {
+                case Constants.ACTION_RESPONSE_DONE:
 
-            } else if (SCAN_ACTION.equals(intent.getAction())) {//开启扫描
-                isScaning = false;
-                soundpool.play(soundid, 1, 1, 0, 0, 1);
-                mVibrator.vibrate(100);
+                    break;
 
-                byte[] barcode = intent.getByteArrayExtra(ScanManager.DECODE_DATA_TAG);
-                int barcodelen = intent.getIntExtra(ScanManager.BARCODE_LENGTH_TAG, 0);
-//                byte temp = intent.getByteExtra(ScanManager.BARCODE_TYPE_TAG, (byte) 0);
-                //            LogUtils.e(TAG+"debug----codetype--" + temp);
-                codeStr = new String(barcode, 0, barcodelen); //扫描后的数据
-                //扫描后发送数据到MainActivity的onActivityResult,并关闭scanActivity
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("data",codeStr);
-                ScanActivity.this.setResult(RESULT_SCAN,resultIntent);
-                finish();
+                case Constants.SCAN_ACTION:
+                    isScaning = false;
+                    soundpool.play(soundid, 1, 1, 0, 0, 1);
+                    mVibrator.vibrate(100);
+
+                    byte[] barcode = intent.getByteArrayExtra(ScanManager.DECODE_DATA_TAG);
+                    int barcodelen = intent.getIntExtra(ScanManager.BARCODE_LENGTH_TAG, 0);
+                    //                byte temp = intent.getByteExtra(ScanManager.BARCODE_TYPE_TAG, (byte) 0);
+                    //            LogUtils.e(TAG+"debug----codetype--" + temp);
+                    codeStr = new String(barcode, 0, barcodelen); //扫描后的数据
+                    //扫描后发送数据到MainActivity的onActivityResult,并关闭scanActivity
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("data",codeStr);
+                    ScanActivity.this.setResult(Constants.RESULT_SCAN,resultIntent);
+                    finish();
+                    break;
             }
         }
     };
@@ -89,10 +92,10 @@ public class ScanActivity extends Activity{
         if (value_buf != null && value_buf[0] != null && !value_buf[0].equals("")) {
             filter.addAction(value_buf[0]);
         } else {
-            filter.addAction(SCAN_ACTION);
+            filter.addAction(Constants.SCAN_ACTION);
         }
 
-        filter.addAction(ACTION_RESPONSE_DONE);
+        filter.addAction(Constants.ACTION_RESPONSE_DONE);
         registerReceiver(mScanReceiver, filter);
 
         open_scan();

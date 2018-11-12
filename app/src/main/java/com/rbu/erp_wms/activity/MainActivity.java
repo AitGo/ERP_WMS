@@ -1,14 +1,8 @@
 package com.rbu.erp_wms.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.device.ScanManager;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -18,6 +12,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 
 import com.rbu.erp_wms.R;
+import com.rbu.erp_wms.base.Constants;
 import com.rbu.erp_wms.interfase.CallBackFunction;
 import com.rbu.erp_wms.utils.CustomToast;
 import com.rbu.erp_wms.utils.LogUtils;
@@ -34,8 +29,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button           btn2;
     private MyEditDialog     dialog;
     private MyDialog.Builder builder;
-    private static int RESULT_SCAN = 1;
-    private static int REQUEST_SCAN = 2;
 
     private String webLoadUrl = "file:///android_asset/index.html";
 
@@ -75,7 +68,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mWebView.addJavascriptInterface(new AndroidToJs(), "rbu");//AndroidtoJS类对象映射到js的test对象
 
         // 先载入JS代码
-        // 格式规定为:file:///android_asset/文件名.html
         mWebView.loadUrl(webLoadUrl);
 
         // 由于设置了弹窗检验调用结果,所以需要支持js对话框
@@ -122,19 +114,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         public void startScanActivity() {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this,ScanActivity.class);
-            startActivityForResult(intent,REQUEST_SCAN);
+            startActivityForResult(intent, Constants.REQUEST_SCAN);
         }
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_SCAN) {
-            if(resultCode == RESULT_SCAN) {
+        if(requestCode == Constants.REQUEST_SCAN) {
+            if(resultCode == Constants.RESULT_SCAN) {
                 //扫描结果
                 String codeStr = data.getStringExtra("data");
-//                CustomToast.toastShort(codeStr);
-
+                CustomToast.toastShort(codeStr);
+                mWebViewUtils.useJsMethodWithoutReturn("androidUseJs2",codeStr );
             }
         }
     }
