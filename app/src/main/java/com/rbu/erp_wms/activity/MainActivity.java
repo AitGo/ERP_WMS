@@ -2,6 +2,10 @@ package com.rbu.erp_wms.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.device.ScanManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -15,6 +19,7 @@ import android.widget.Button;
 
 import com.rbu.erp_wms.R;
 import com.rbu.erp_wms.interfase.CallBackFunction;
+import com.rbu.erp_wms.utils.CustomToast;
 import com.rbu.erp_wms.utils.LogUtils;
 import com.rbu.erp_wms.utils.WebViewUtils;
 import com.rbu.erp_wms.widget.MyDialog;
@@ -29,6 +34,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button           btn2;
     private MyEditDialog     dialog;
     private MyDialog.Builder builder;
+    private static int RESULT_SCAN = 1;
+    private static int REQUEST_SCAN = 2;
 
     private String webLoadUrl = "file:///android_asset/index.html";
 
@@ -110,6 +117,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
             });
 
         }
+
+        @JavascriptInterface
+        public void startScanActivity() {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,ScanActivity.class);
+            startActivityForResult(intent,REQUEST_SCAN);
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_SCAN) {
+            if(resultCode == RESULT_SCAN) {
+                //扫描结果
+                String codeStr = data.getStringExtra("data");
+//                CustomToast.toastShort(codeStr);
+
+            }
+        }
     }
 
     @Override
@@ -118,7 +145,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             case R.id.btn_1:
                 mWebViewUtils.useJsMethodWithoutReturn("androidUseJs1","" );
-
+                CustomToast.toastShort("1111111");
                 break;
 
             case R.id.btn_2:
