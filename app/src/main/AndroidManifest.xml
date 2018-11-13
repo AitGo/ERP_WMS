@@ -3,6 +3,7 @@
           package="com.rbu.erp_wms">
 
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!--手持终端扫描权限-->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>

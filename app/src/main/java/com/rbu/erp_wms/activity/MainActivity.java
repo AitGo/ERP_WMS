@@ -2,13 +2,17 @@ package com.rbu.erp_wms.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 
 import com.rbu.erp_wms.R;
@@ -19,6 +23,9 @@ import com.rbu.erp_wms.utils.LogUtils;
 import com.rbu.erp_wms.utils.WebViewUtils;
 import com.rbu.erp_wms.widget.MyDialog;
 import com.rbu.erp_wms.widget.MyEditDialog;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -31,6 +38,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private MyDialog.Builder builder;
 
     private String webLoadUrl = "file:///android_asset/index.html";
+//private String webLoadUrl = "https://www.tianxun.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +69,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
         webSettings.setJavaScriptEnabled(true);
         // 设置允许JS弹窗
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-
+        //设置可以访问文件
+        webSettings.setAllowFileAccess(true);
+        //设置支持缩放
+        webSettings.setBuiltInZoomControls(true);
         // 通过addJavascriptInterface()将Java对象映射到JS对象
         //参数1：Javascript对象名
         //参数2：Java对象名
         mWebView.addJavascriptInterface(new AndroidToJs(), "rbu");//AndroidtoJS类对象映射到js的test对象
+
+        try {
+            if (Build.VERSION.SDK_INT >= 16) {
+                Class<?> clazz = mWebView.getSettings().getClass();
+                Method method = clazz.getMethod(
+                        "setAllowUniversalAccessFromFileURLs", boolean.class);//利用反射机制去修改设置对象
+                if (method != null) {
+                    method.invoke(mWebView.getSettings(), true);//修改设置
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         // 先载入JS代码
         mWebView.loadUrl(webLoadUrl);
@@ -91,6 +121,40 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //                dialog.show();
 //                return true;
                 return super.onJsAlert(view,url,message,result);
+            }
+        });
+
+        mWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                try{
+                    if(url.startsWith("baiduboxapp://")){
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    }
+                }catch (Exception e){
+                    return false;
+                }
+
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
+        // 点击后退按钮,让WebView后退一页
+        mWebView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) { // 表示按返回键
+                        // 时的操作
+                        mWebView.goBack(); // 后退
+                        // webview.goForward();//前进
+                        return true; // 已处理
+                    }
+                }
+                return false;
             }
         });
 
