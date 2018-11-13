@@ -13,9 +13,15 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.rbu.erp_wms.R;
 import com.rbu.erp_wms.base.Constants;
+import com.rbu.erp_wms.utils.ScanSettingUtil;
 
 /**
  * @创建者 liuyang
@@ -26,14 +32,16 @@ import com.rbu.erp_wms.base.Constants;
  * @更新描述 ${TODO}
  */
 
-public class ScanActivity extends Activity{
+public class ScanActivity extends Activity implements View.OnClickListener {
 
     private ScanManager mScanManager;
     private boolean   isScaning = false;
     private SoundPool soundpool = null;
-    private int      soundid;
-    private Vibrator mVibrator;
-    private String codeStr;
+    private int       soundid;
+    private Vibrator  mVibrator;
+    private String    codeStr;
+    private ImageView setting;
+    private ImageView back;
 
 
     private ProgressDialog mProgressDialog;
@@ -69,8 +77,14 @@ public class ScanActivity extends Activity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_scan);
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        back = (ImageView) findViewById(R.id.scan_back);
+        setting = (ImageView) findViewById(R.id.scan_settings);
+        back.setOnClickListener(this);
+        setting.setOnClickListener(this);
 
         mProgressDialog = ProgressDialog.show(this, null, "扫描中，请稍候...");
         mProgressDialog.setCanceledOnTouchOutside(true);
@@ -157,4 +171,15 @@ public class ScanActivity extends Activity{
         mScanManager.stopDecode();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.scan_back:
+                finish();
+                break;
+            case R.id.scan_settings:
+                ScanSettingUtil.method_setting(this);
+                break;
+        }
+    }
 }
