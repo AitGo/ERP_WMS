@@ -27,6 +27,8 @@ import com.rbu.erp_wms.widget.MyEditDialog;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -192,6 +194,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         public void startPrintActivity() {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this,PrintActivity.class);
+            ArrayList<String> data = new ArrayList<>();
+            data.add("123");
+            PrintActivity.data = data;
             startActivity(intent);
         }
     }
