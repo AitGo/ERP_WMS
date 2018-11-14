@@ -14,7 +14,8 @@
 <body>
 <button type="button" onclick="androidUseJs1()">android调用js</button></br></br>
 <button type="button" onclick="androidUseJs2('sss')">android调用js带参数</button></br></br>
-<button type="button" onclick="jsUseAndroid()">js调用android  </button></br></br>
+<button type="button" onclick="jsUseAndroid()">扫描</button></br></br>
+<!--<button type="button" onclick="jsUseAndroid2()">js调用android2  </button></br></br>-->
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -33,6 +34,9 @@
                 rbu.startScanActivity();
             }
 
+            function jsUseAndroid2(){
+                rbu.startPrintActivity();
+            }
 
         </script>
 </body>

@@ -21,12 +21,13 @@ import android.widget.ImageView;
 
 import com.rbu.erp_wms.R;
 import com.rbu.erp_wms.base.Constants;
+import com.rbu.erp_wms.utils.LogUtils;
 import com.rbu.erp_wms.utils.ScanSettingUtil;
 
 /**
  * @创建者 liuyang
  * @创建时间 2018/11/12 10:41
- * @描述 ${扫描Activity}
+ * @描述 扫描Activity
  * @更新者 $Author$
  * @更新时间 $Date$
  * @更新描述 ${TODO}
@@ -51,7 +52,7 @@ public class ScanActivity extends Activity implements View.OnClickListener {
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case Constants.ACTION_RESPONSE_DONE:
-
+                    LogUtils.e("ACTION_RESPONSE_DONE");
                     break;
 
                 case Constants.SCAN_ACTION:
@@ -136,6 +137,7 @@ public class ScanActivity extends Activity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mScanReceiver);
+        mProgressDialog.dismiss();
     }
 
     /**

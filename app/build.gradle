@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.rbu.erp_wms"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,10 +17,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -28,4 +34,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     //okhttp封装
     compile 'com.zhy:okhttputils:2.6.2'
+    compile 'com.github.promeg:tinypinyin:1.0.0'
+    //打印
+    compile(name: 'picasso-2.5.2.3', ext: 'aar')
 }

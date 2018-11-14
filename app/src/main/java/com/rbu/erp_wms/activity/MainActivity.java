@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -43,6 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         initView();
@@ -160,6 +162,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
+    /**
+     * js调用android的函数
+     * 函数需要使用@JavascriptInterface注解，js才能调用
+     *
+     */
     public class AndroidToJs extends Object {
 
         @JavascriptInterface
@@ -180,6 +187,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             intent.setClass(MainActivity.this,ScanActivity.class);
             startActivityForResult(intent, Constants.REQUEST_SCAN);
         }
+
+        @JavascriptInterface
+        public void startPrintActivity() {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,PrintActivity.class);
+            startActivity(intent);
+        }
     }
 
 
@@ -198,7 +212,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.btn_1:
                 mWebViewUtils.useJsMethodWithoutReturn("androidUseJs1","" );
                 CustomToast.toastShort("1111111");

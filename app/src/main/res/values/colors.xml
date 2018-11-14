@@ -12,4 +12,11 @@
     <color name="btn_red">#ff4848</color>
     <color name="headbg">#333333</color>
     <color name="white">#ffffff</color>
+    <color name="divider_color">#66eae8e8</color>
+    <color name="gray">#6D6D6D</color>
+    <color name="gray2">#b1b0b0</color>
+    <color name="print_order">#41A3EE</color>
+    <color name="print_orderp">#41c6ee</color>
+    <color name="loginbt_bgn">#15CD6D</color>
+
 </resources>
