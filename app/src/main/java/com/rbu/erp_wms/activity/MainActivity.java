@@ -15,12 +15,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ZoomButtonsController;
 
+import com.google.gson.Gson;
 import com.rbu.erp_wms.R;
 import com.rbu.erp_wms.base.Constants;
+import com.rbu.erp_wms.diagnose.PrintData;
 import com.rbu.erp_wms.interfase.CallBackFunction;
 import com.rbu.erp_wms.utils.CustomToast;
 import com.rbu.erp_wms.utils.LogUtils;
+import com.rbu.erp_wms.utils.SPUtils;
 import com.rbu.erp_wms.utils.WebViewUtils;
 import com.rbu.erp_wms.widget.MyDialog;
 import com.rbu.erp_wms.widget.MyEditDialog;
@@ -41,7 +45,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private MyDialog.Builder builder;
 
     private String webLoadUrl = "file:///android_asset/index.html";
-//private String webLoadUrl = "https://www.tianxun.com/";
+//    private String webLoadUrl = "http://172.20.3.224:8089/#/login";
+    private ArrayList<String> data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +55,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         initView();
+        initData();
         initWebViewSetting();
 
+    }
+
+    private void initData() {
+        String url = (String) SPUtils.getParam(this,"url","");
+        if(!url.equals("")) {
+            webLoadUrl = url;
+        }
     }
 
     private void initView() {
@@ -77,6 +90,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         webSettings.setAllowFileAccess(true);
         //设置支持缩放
         webSettings.setBuiltInZoomControls(true);
+        //去掉滚动条
+        mWebView.setVerticalScrollBarEnabled(false);
+        mWebView.setHorizontalScrollBarEnabled(false);
+        //不显示webview缩放按钮
+        webSettings.setDisplayZoomControls(false);
+
         // 通过addJavascriptInterface()将Java对象映射到JS对象
         //参数1：Javascript对象名
         //参数2：Java对象名
@@ -166,7 +185,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     /**
      * js调用android的函数
-     * 函数需要使用@JavascriptInterface注解，js才能调用
+     * 函数需要使用@JavascriptInterface注解后js才能调用
      *
      */
     public class AndroidToJs extends Object {
@@ -183,6 +202,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         }
 
+        /**
+         * 扫描目前只是把扫描结果的string发给js
+         */
         @JavascriptInterface
         public void startScanActivity() {
             Intent intent = new Intent();
@@ -190,12 +212,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivityForResult(intent, Constants.REQUEST_SCAN);
         }
 
+        /**
+         * 调取pda打印方法，需要js把箱唛数据包装成json发送过来，解析json放入data中
+         * @param json
+         */
         @JavascriptInterface
-        public void startPrintActivity() {
+        public void startPrintActivity(String json) {
+            data.clear();
             Intent intent = new Intent();
             intent.setClass(MainActivity.this,PrintActivity.class);
-            ArrayList<String> data = new ArrayList<>();
-            data.add("123");
+
+            //json解析出String数据，放入data中
+            Gson gson = new Gson();
+            PrintData printData = gson.fromJson(json, PrintData.class);
+            data.addAll(printData.getData());
             PrintActivity.data = data;
             startActivity(intent);
         }
@@ -207,7 +237,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if(requestCode == Constants.REQUEST_SCAN) {
             if(resultCode == Constants.RESULT_SCAN) {
                 //扫描结果
-                String codeStr = data.getStringExtra("data");
+                String codeStr = data.getStringExtra("scanData");
                 CustomToast.toastShort(codeStr);
                 mWebViewUtils.useJsMethodWithoutReturn("androidUseJs2",codeStr );
             }
@@ -219,7 +249,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_1:
                 mWebViewUtils.useJsMethodWithoutReturn("androidUseJs1","" );
-                CustomToast.toastShort("1111111");
                 break;
 
             case R.id.btn_2:

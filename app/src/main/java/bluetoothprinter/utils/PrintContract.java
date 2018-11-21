@@ -571,10 +571,10 @@ public class PrintContract {
             pUtil.printBitmap(bitmap);
             pUtil.printLine(2);
 
-            pUtil.feedAndCut();
-            pUtil = null;
+//            pUtil.feedAndCut();
+            Thread.sleep(400);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             LogUtils.e(TAG + "printPoCarton错误信息：" + e.toString());
         }
         //            }

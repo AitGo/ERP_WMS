@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/text_white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@mipmap/login_bg">
+
+        <ImageView
+            android:id="@+id/config_back"
+            style="@style/BackStyle"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/scan_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="配置"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tv_config_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/halfwhite"
+            android:text="1.0"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_marginLeft="20dp"
+            android:text="url："
+            android:textSize="16sp"
+            android:textColor="@color/text_black"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/et_config_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:drawableLeft="@mipmap/url"
+            android:drawablePadding="15dp"
+            android:hint="url地址"
+            android:padding="15dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:background="@drawable/bg_edittext"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_config_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/selector_login_bt"
+        android:src="@drawable/shape_logibt_normal"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="20sp"/>
+
+</LinearLayout>

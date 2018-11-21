@@ -67,7 +67,7 @@ public class ScanActivity extends Activity implements View.OnClickListener {
                     codeStr = new String(barcode, 0, barcodelen); //扫描后的数据
                     //扫描后发送数据到MainActivity的onActivityResult,并关闭scanActivity
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("data",codeStr);
+                    resultIntent.putExtra("scanData",codeStr);
                     ScanActivity.this.setResult(Constants.RESULT_SCAN,resultIntent);
                     finish();
                     break;

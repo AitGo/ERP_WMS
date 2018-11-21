@@ -18,6 +18,7 @@
     <color name="print_order">#41A3EE</color>
     <color name="print_orderp">#41c6ee</color>
     <color name="loginbt_bgn">#15CD6D</color>
+    <color name="loginbt_bg">#4fe798</color>
     <color name="content_color">#666666</color>
-
+    <color name="halfwhite">#66ffffff</color>
 </resources>
